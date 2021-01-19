@@ -1,0 +1,34 @@
+const int TrigPin = 15;
+const int EchoPin = 16;
+const int led = 26;
+float cm;
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(TrigPin, OUTPUT);
+  pinMode(EchoPin, INPUT);
+  pinMode(led,OUTPUT);
+}
+void loop()
+{
+  digitalWrite(TrigPin, LOW);       
+  delayMicroseconds(2);
+  digitalWrite(TrigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TrigPin, LOW);
+  cm = pulseIn(EchoPin, HIGH) / 58.0;
+  cm = (int(cm * 100.0)) / 100.0;     //pentru 2 zecimale
+  Serial.println();
+  if(cm<10){ //daca pui senzorul in spatele usii foloseste ">" in loc de "<" p.s. ai grija ca usa sa fie la mai putin de 15 cm distanta
+      digitalWrite(led,HIGH);
+      delay(200);
+      Serial.print("Usa inchisa");
+    }
+    else
+    {
+      digitalWrite(led,LOW);
+      delay(200);  
+      Serial.print("Usa deschisa");
+    }
+  delay(200);
+}
